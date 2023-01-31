@@ -18,7 +18,6 @@ public class VendasApplication {
 		return args -> {
 			System.out.println("Salvando clientes");
 			clientes.salvar(new Cliente("Paulo"));
-
 			clientes.salvar(new Cliente("Rodrigo"));
 
 			List<Cliente> todosClientes = clientes.obterTodos();
@@ -37,10 +36,10 @@ public class VendasApplication {
 			System.out.println("Buscando por nome");
 			clientes.buscarPorNome("Paulo").forEach(System.out::println);
 
-//			System.out.println("Deletando clientes");
-//			clientes.obterTodos().forEach(c -> {
-//				clientes.deletar(c);
-//			});
+			System.out.println("Deletando clientes");
+			clientes.obterTodos().forEach(c -> {
+				clientes.deletar(c);
+			});
 
 
 			todosClientes = clientes.obterTodos();
