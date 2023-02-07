@@ -1,4 +1,4 @@
-package com.paulocavalcante.vendas.vendas.domain.repositorio;
+package com.paulocavalcante.vendas.vendas.domain.repository;
 
 import com.paulocavalcante.vendas.vendas.domain.entity.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +15,7 @@ public interface Clientes extends JpaRepository<Cliente, Integer> {
     List<Cliente> encontrarPorNome(@Param("nome") String nome);
 
      boolean existsByNome(String nome);
+
+     @Query(" select c from Cliente c left join fetch c.pedidos where c.id = :id ")
+     Cliente findClienteFetchPedidos(@Param("id") Integer id);
 }
