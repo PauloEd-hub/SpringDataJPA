@@ -10,6 +10,7 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @Column(length = 100)
     private String nome;
 
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
