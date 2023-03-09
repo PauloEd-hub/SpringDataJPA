@@ -13,7 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/api/clientes")
 public class ClienteController {
 
@@ -62,6 +62,8 @@ public class ClienteController {
                         "Cliente não encontrado"));
     }
 
+
+    @GetMapping
     public List<Cliente> find(Cliente filtro) {
         ExampleMatcher matcher = ExampleMatcher
                 .matching()
