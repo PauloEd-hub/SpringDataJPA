@@ -29,7 +29,7 @@ public class ProdutoController {
 
     }
 
-    @PutMapping("{id]")
+    @PutMapping("/{id}")
     public void update(@PathVariable Integer id, @RequestBody Produto produto) {
         repository.findById(id)
                 .map(p-> {
@@ -39,7 +39,7 @@ public class ProdutoController {
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado"));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Integer id) {
         repository.findById(id)
@@ -50,8 +50,7 @@ public class ProdutoController {
     }
 
 
-    @GetMapping("{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @GetMapping("/{id}")
     public Produto getById(@PathVariable Integer id) {
         return repository.findById(id)
                 .orElseThrow(() ->
