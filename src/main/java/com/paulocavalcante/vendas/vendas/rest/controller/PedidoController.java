@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/pedidps")
+@RequestMapping("/api/pedidos")
 public class PedidoController {
 
     private PedidoService pedidoService;

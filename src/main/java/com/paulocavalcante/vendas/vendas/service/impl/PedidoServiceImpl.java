@@ -12,13 +12,10 @@ import com.paulocavalcante.vendas.vendas.exception.RegraNegocioException;
 import com.paulocavalcante.vendas.vendas.rest.dto.ItemsPedidoDTO;
 import com.paulocavalcante.vendas.vendas.rest.dto.PedidoDTO;
 import com.paulocavalcante.vendas.vendas.service.PedidoService;
-import jdk.dynalink.linker.LinkerServices;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.type.ListType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.StyleSheet;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -61,7 +58,7 @@ public class PedidoServiceImpl implements PedidoService {
         return items.stream().map(dto -> {
             Integer idProduto = dto.getProduto();
             Produto produto = produtosRepository.findById(idProduto)
-                    .orElseThrow(() -> new RegraNegocioException("Código de produto inválido"));
+                    .orElseThrow(() -> new RegraNegocioException("Código de produto inválido" + idProduto));
 
             ItemPedido itemPedido = new ItemPedido();
             itemPedido.setQuantidade(dto.getQuantidade());
