@@ -4,10 +4,12 @@ import com.paulocavalcante.vendas.vendas.domain.entity.Cliente;
 import com.paulocavalcante.vendas.vendas.domain.entity.ItemPedido;
 import com.paulocavalcante.vendas.vendas.domain.entity.Pedido;
 import com.paulocavalcante.vendas.vendas.domain.entity.Produto;
+import com.paulocavalcante.vendas.vendas.domain.enums.StatusPedido;
 import com.paulocavalcante.vendas.vendas.domain.repository.ClienteRepository;
 import com.paulocavalcante.vendas.vendas.domain.repository.ItemsPedidos;
 import com.paulocavalcante.vendas.vendas.domain.repository.PedidoRepository;
 import com.paulocavalcante.vendas.vendas.domain.repository.ProdutoRepository;
+import com.paulocavalcante.vendas.vendas.exception.PedidoNaoEncontradoException;
 import com.paulocavalcante.vendas.vendas.exception.RegraNegocioException;
 import com.paulocavalcante.vendas.vendas.rest.dto.ItemsPedidoDTO;
 import com.paulocavalcante.vendas.vendas.rest.dto.PedidoDTO;
@@ -41,6 +43,7 @@ public class PedidoServiceImpl implements PedidoService {
         pedido.setTotal(dto.getTotal());
         pedido.setDataPedido(LocalDate.now());
         pedido.setCliente(cliente);
+        pedido.setStatus(StatusPedido.REALIZADO);
 
         List<ItemPedido> itemsPedido = converterItems(pedido, dto.getItemsPedidoDTOS());
         pedidoRepository.save(pedido);
@@ -54,6 +57,16 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     public Optional<Pedido> obterPedidoCompleto(Integer id) {
         return pedidoRepository.findByIdFetchItens(id);
+    }
+
+    @Override
+    @Transactional
+    public void atualizaStatusPedido(Integer id, StatusPedido statusPedido) {
+        pedidoRepository.findById(id)
+                .map(pedido -> {
+                    pedido.setStatus(statusPedido);
+                    return pedidoRepository.save(pedido);
+                }).orElseThrow(() -> new PedidoNaoEncontradoException());
     }
 
 

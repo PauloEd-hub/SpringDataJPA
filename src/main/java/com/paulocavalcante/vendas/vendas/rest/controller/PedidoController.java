@@ -3,6 +3,8 @@ package com.paulocavalcante.vendas.vendas.rest.controller;
 
 import com.paulocavalcante.vendas.vendas.domain.entity.ItemPedido;
 import com.paulocavalcante.vendas.vendas.domain.entity.Pedido;
+import com.paulocavalcante.vendas.vendas.domain.enums.StatusPedido;
+import com.paulocavalcante.vendas.vendas.rest.dto.AtualizacaoStatusPedidoDTO;
 import com.paulocavalcante.vendas.vendas.rest.dto.InformacaoItemPedidoDTO;
 import com.paulocavalcante.vendas.vendas.rest.dto.InformacoesPedidosDTO;
 import com.paulocavalcante.vendas.vendas.rest.dto.PedidoDTO;
@@ -44,6 +46,15 @@ public class PedidoController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado"));
     }
 
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateStatus(@PathVariable Integer id, @RequestBody AtualizacaoStatusPedidoDTO dto) {
+
+        String novoStatus = dto.getNovoStatus();
+        pedidoService.atualizaStatusPedido(id, StatusPedido.valueOf(novoStatus));
+
+    }
+
     private InformacoesPedidosDTO converter(Pedido pedido) {
         return InformacoesPedidosDTO.builder()
                 .codigo(pedido.getId())
@@ -51,6 +62,7 @@ public class PedidoController {
                 .cpf(pedido.getCliente().getCpf())
                 .nomeCliente(pedido.getCliente().getNome())
                 .total(pedido.getTotal())
+                .status(pedido.getStatus().name())
                 .items(converter(pedido.getItens()))
                 .build();
 
