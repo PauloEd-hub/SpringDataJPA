@@ -2,7 +2,7 @@ package com.paulocavalcante.vendas.vendas.rest.controller;
 
 
 import com.paulocavalcante.vendas.vendas.domain.entity.Cliente;
-import com.paulocavalcante.vendas.vendas.domain.repository.Clientes;
+import com.paulocavalcante.vendas.vendas.domain.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -17,7 +17,7 @@ import java.util.List;
 public class ClienteController {
 
     @Autowired
-    private Clientes clientes;
+    private ClienteRepository clientes;
 
 
     @GetMapping("/{id}")

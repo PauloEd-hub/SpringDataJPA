@@ -1,7 +1,7 @@
 package com.paulocavalcante.vendas.vendas;
 
 import com.paulocavalcante.vendas.vendas.domain.entity.Cliente;
-import com.paulocavalcante.vendas.vendas.domain.repository.Clientes;
+import com.paulocavalcante.vendas.vendas.domain.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,7 +13,7 @@ public class VendasApplication {
 
 
 	@Bean
-	public CommandLineRunner commandLineRunner(@Autowired Clientes clientes) {
+	public CommandLineRunner commandLineRunner(@Autowired ClienteRepository clientes) {
 		return args -> {
 			Cliente c = new Cliente(null, "Fulano");
 			clientes.save(c);

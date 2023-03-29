@@ -4,10 +4,10 @@ import com.paulocavalcante.vendas.vendas.domain.entity.Cliente;
 import com.paulocavalcante.vendas.vendas.domain.entity.ItemPedido;
 import com.paulocavalcante.vendas.vendas.domain.entity.Pedido;
 import com.paulocavalcante.vendas.vendas.domain.entity.Produto;
-import com.paulocavalcante.vendas.vendas.domain.repository.Clientes;
+import com.paulocavalcante.vendas.vendas.domain.repository.ClienteRepository;
 import com.paulocavalcante.vendas.vendas.domain.repository.ItemsPedidos;
-import com.paulocavalcante.vendas.vendas.domain.repository.Pedidos;
-import com.paulocavalcante.vendas.vendas.domain.repository.Produtos;
+import com.paulocavalcante.vendas.vendas.domain.repository.PedidoRepository;
+import com.paulocavalcante.vendas.vendas.domain.repository.ProdutoRepository;
 import com.paulocavalcante.vendas.vendas.exception.RegraNegocioException;
 import com.paulocavalcante.vendas.vendas.rest.dto.ItemsPedidoDTO;
 import com.paulocavalcante.vendas.vendas.rest.dto.PedidoDTO;
@@ -18,15 +18,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PedidoServiceImpl implements PedidoService {
 
-    private final Pedidos repository;
-    private final Clientes clientesRepository;
-    private final Produtos produtosRepository;
+    private final PedidoRepository pedidoRepository;
+    private final ClienteRepository clientesRepository;
+    private final ProdutoRepository produtosRepository;
     private final ItemsPedidos itemsPedidosRepository;
 
 
@@ -42,13 +43,19 @@ public class PedidoServiceImpl implements PedidoService {
         pedido.setCliente(cliente);
 
         List<ItemPedido> itemsPedido = converterItems(pedido, dto.getItemsPedidoDTOS());
-        repository.save(pedido);
+        pedidoRepository.save(pedido);
         itemsPedidosRepository.saveAll(itemsPedido);
 
         pedido.setItens(itemsPedido);
 
         return pedido;
     }
+
+    @Override
+    public Optional<Pedido> obterPedidoCompleto(Integer id) {
+        return pedidoRepository.findByIdFetchItens(id);
+    }
+
 
     public List<ItemPedido> converterItems(Pedido pedido, List<ItemsPedidoDTO> items) {
         if(items.isEmpty()) {

@@ -1,9 +1,8 @@
 package com.paulocavalcante.vendas.vendas.rest.controller;
 
 
-import com.paulocavalcante.vendas.vendas.domain.entity.Cliente;
 import com.paulocavalcante.vendas.vendas.domain.entity.Produto;
-import com.paulocavalcante.vendas.vendas.domain.repository.Produtos;
+import com.paulocavalcante.vendas.vendas.domain.repository.ProdutoRepository;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
@@ -16,9 +15,9 @@ import java.util.List;
 @RequestMapping("/api/produtos")
 public class ProdutoController {
 
-    private Produtos repository;
+    private ProdutoRepository repository;
 
-    public ProdutoController(Produtos produtos) {
+    public ProdutoController(ProdutoRepository produtos) {
         this.repository = produtos;
     }
 
